@@ -3,33 +3,26 @@ package com.example.saralash2.controller;
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.SubjectDto;
 import com.example.saralash2.entity.Subject;
-import com.example.saralash2.repository.SubjectRepository;
 import com.example.saralash2.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/subject")
 @RequiredArgsConstructor
 public class SubjectController {
-    private final SubjectRepository subjectRepository;
     private final SubjectService subjectService;
 
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok().body(subjectRepository.findAll());
+        return ResponseEntity.ok(subjectService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
-        Optional<Subject> optionalSubject = subjectRepository.findById(id);
-        if (optionalSubject.isPresent()) {
-            return ResponseEntity.ok(optionalSubject.get());
-        }
-        return ResponseEntity.notFound().build();
+        ApiResponse<Subject> response = subjectService.getOne(id);
+        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
     }
 
     @PostMapping
@@ -46,11 +39,7 @@ public class SubjectController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
-        Optional<Subject> optionalSubject = subjectRepository.findById(id);
-        if (optionalSubject.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        subjectRepository.delete(optionalSubject.get());
-        return ResponseEntity.ok("Deleted");
+        ApiResponse response = subjectService.delete(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response.getMessage());
     }
 }

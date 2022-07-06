@@ -8,6 +8,7 @@ import com.example.saralash2.repository.FacultyRepository;
 import com.example.saralash2.repository.GroupRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +45,37 @@ public record GroupService(GroupRepository groupRepository, FacultyRepository fa
         return ApiResponse.<Group>builder()
                 .message("EDITED")
                 .object(save)
+                .success(true)
+                .build();
+    }
+
+    public List<Group> getAll() {
+        return groupRepository.findAll();
+    }
+
+    public ApiResponse<Group> getOne(Integer id) {
+        Optional<Group> optionalGroup = groupRepository.findById(id);
+        if (optionalGroup.isPresent()) {
+            return ApiResponse.<Group>builder()
+                    .success(true)
+                    .object(optionalGroup.get())
+                    .build();
+        }
+        return ApiResponse.<Group>builder()
+                .message("NOT FOUND")
+                .build();
+    }
+
+    public ApiResponse delete(Integer id) {
+        Optional<Group> optionalGroup = groupRepository.findById(id);
+        if (optionalGroup.isEmpty()) {
+            return ApiResponse.builder()
+                    .message("NOT FOUND")
+                    .build();
+        }
+        groupRepository.delete(optionalGroup.get());
+        return ApiResponse.builder()
+                .message("DELETED")
                 .success(true)
                 .build();
     }

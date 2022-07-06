@@ -2,6 +2,8 @@ package com.example.saralash2.controller;
 
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.GroupDto;
+import com.example.saralash2.dto.GroupDto;
+import com.example.saralash2.entity.Group;
 import com.example.saralash2.entity.Group;
 import com.example.saralash2.repository.GroupRepository;
 import com.example.saralash2.service.GroupService;
@@ -15,21 +17,18 @@ import java.util.Optional;
 @RequestMapping("/group")
 @RequiredArgsConstructor
 public class GroupController {
-    private final GroupRepository groupRepository;
     private final GroupService groupService;
+
 
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok().body(groupRepository.findAll());
+        return ResponseEntity.ok(groupService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
-        Optional<Group> optionalGroup = groupRepository.findById(id);
-        if (optionalGroup.isPresent()) {
-            return ResponseEntity.ok().body(optionalGroup.get());
-        }
-        return ResponseEntity.notFound().build();
+        ApiResponse<Group> response = groupService.getOne(id);
+        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
     }
 
     @PostMapping
@@ -46,11 +45,7 @@ public class GroupController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
-        Optional<Group> optionalGroup = groupRepository.findById(id);
-        if (optionalGroup.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        groupRepository.delete(optionalGroup.get());
-        return ResponseEntity.ok("Deleted");
+        ApiResponse response = groupService.delete(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response.getMessage());
     }
 }

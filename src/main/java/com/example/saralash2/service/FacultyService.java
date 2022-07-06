@@ -8,6 +8,7 @@ import com.example.saralash2.repository.FacultyRepository;
 import com.example.saralash2.repository.UniversityRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,37 @@ public record FacultyService(FacultyRepository facultyRepository, UniversityRepo
         return ApiResponse.<Faculty>builder()
                 .message("EDITED")
                 .object(save)
+                .success(true)
+                .build();
+    }
+
+    public List<Faculty> getAll() {
+        return facultyRepository.findAll();
+    }
+
+    public ApiResponse<Faculty> getOne(Integer id) {
+        Optional<Faculty> optionalFaculty = facultyRepository.findById(id);
+        if (optionalFaculty.isPresent()) {
+            return ApiResponse.<Faculty>builder()
+                    .success(true)
+                    .object(optionalFaculty.get())
+                    .build();
+        }
+        return ApiResponse.<Faculty>builder()
+                .message("NOT FOUND")
+                .build();
+    }
+
+    public ApiResponse delete(Integer id) {
+        Optional<Faculty> optionalFaculty = facultyRepository.findById(id);
+        if (optionalFaculty.isEmpty()) {
+            return ApiResponse.builder()
+                    .message("NOT FOUND")
+                    .build();
+        }
+        facultyRepository.delete(optionalFaculty.get());
+        return ApiResponse.builder()
+                .message("DELETED")
                 .success(true)
                 .build();
     }

@@ -2,6 +2,8 @@ package com.example.saralash2.controller;
 
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.MarkDto;
+import com.example.saralash2.dto.MarkDto;
+import com.example.saralash2.entity.Mark;
 import com.example.saralash2.entity.Mark;
 import com.example.saralash2.repository.MarkRepository;
 import com.example.saralash2.service.MarkService;
@@ -15,21 +17,17 @@ import java.util.Optional;
 @RequestMapping("/mark")
 @RequiredArgsConstructor
 public class MarkController {
-    private final MarkRepository markRepository;
     private final MarkService markService;
 
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok().body(markRepository.findAll());
+        return ResponseEntity.ok(markService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
-        Optional<Mark> optionalMark = markRepository.findById(id);
-        if (optionalMark.isPresent()) {
-            return ResponseEntity.ok().body(optionalMark.get());
-        }
-        return ResponseEntity.notFound().build();
+        ApiResponse<Mark> response = markService.getOne(id);
+        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
     }
 
     @PostMapping
@@ -46,11 +44,7 @@ public class MarkController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
-        Optional<Mark> optionalMark = markRepository.findById(id);
-        if (optionalMark.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        markRepository.delete(optionalMark.get());
-        return ResponseEntity.ok("Deleted");
+        ApiResponse response = markService.delete(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response.getMessage());
     }
 }

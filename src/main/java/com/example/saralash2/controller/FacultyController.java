@@ -3,33 +3,26 @@ package com.example.saralash2.controller;
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.FacultyDto;
 import com.example.saralash2.entity.Faculty;
-import com.example.saralash2.repository.FacultyRepository;
 import com.example.saralash2.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/faculty")
 @RequiredArgsConstructor
 public class FacultyController {
-    private final FacultyRepository facultyRepository;
     private final FacultyService facultyService;
 
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok().body(facultyRepository.findAll());
+        return ResponseEntity.ok(facultyService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
-        Optional<Faculty> optionalFaculty = facultyRepository.findById(id);
-        if (optionalFaculty.isPresent()) {
-            return ResponseEntity.ok().body(optionalFaculty.get());
-        }
-        return ResponseEntity.notFound().build();
+        ApiResponse<Faculty> response = facultyService.getOne(id);
+        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
     }
 
     @PostMapping
@@ -46,11 +39,7 @@ public class FacultyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
-        Optional<Faculty> optionalFaculty = facultyRepository.findById(id);
-        if (optionalFaculty.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        facultyRepository.delete(optionalFaculty.get());
-        return ResponseEntity.ok("DELETED");
+        ApiResponse response = facultyService.delete(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response.getMessage());
     }
 }

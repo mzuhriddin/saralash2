@@ -2,12 +2,14 @@ package com.example.saralash2.service;
 
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.StudentDto;
+import com.example.saralash2.entity.Student;
 import com.example.saralash2.entity.Group;
 import com.example.saralash2.entity.Student;
 import com.example.saralash2.repository.GroupRepository;
 import com.example.saralash2.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +44,37 @@ public record StudentService(StudentRepository studentRepository, GroupRepositor
         return ApiResponse.<Student>builder()
                 .message("EDITED")
                 .object(save)
+                .success(true)
+                .build();
+    }
+
+    public List<Student> getAll() {
+        return studentRepository.findAll();
+    }
+
+    public ApiResponse<Student> getOne(Integer id) {
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        if (optionalStudent.isPresent()) {
+            return ApiResponse.<Student>builder()
+                    .success(true)
+                    .object(optionalStudent.get())
+                    .build();
+        }
+        return ApiResponse.<Student>builder()
+                .message("NOT FOUND")
+                .build();
+    }
+
+    public ApiResponse delete(Integer id) {
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        if (optionalStudent.isEmpty()) {
+            return ApiResponse.builder()
+                    .message("NOT FOUND")
+                    .build();
+        }
+        studentRepository.delete(optionalStudent.get());
+        return ApiResponse.builder()
+                .message("DELETED")
                 .success(true)
                 .build();
     }

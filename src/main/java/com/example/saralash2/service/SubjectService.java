@@ -5,11 +5,13 @@ import com.example.saralash2.dto.SubjectDto;
 import com.example.saralash2.dto.SubjectDto;
 import com.example.saralash2.entity.Subject;
 import com.example.saralash2.entity.Subject;
+import com.example.saralash2.entity.Subject;
 import com.example.saralash2.entity.Group;
 import com.example.saralash2.repository.GroupRepository;
 import com.example.saralash2.repository.SubjectRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,6 +45,37 @@ public record SubjectService(SubjectRepository subjectRepository, GroupRepositor
         return ApiResponse.<Subject>builder()
                 .message("EDITED")
                 .object(save)
+                .success(true)
+                .build();
+    }
+
+    public List<Subject> getAll() {
+        return subjectRepository.findAll();
+    }
+
+    public ApiResponse<Subject> getOne(Integer id) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(id);
+        if (optionalSubject.isPresent()) {
+            return ApiResponse.<Subject>builder()
+                    .success(true)
+                    .object(optionalSubject.get())
+                    .build();
+        }
+        return ApiResponse.<Subject>builder()
+                .message("NOT FOUND")
+                .build();
+    }
+
+    public ApiResponse delete(Integer id) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(id);
+        if (optionalSubject.isEmpty()) {
+            return ApiResponse.builder()
+                    .message("NOT FOUND")
+                    .build();
+        }
+        subjectRepository.delete(optionalSubject.get());
+        return ApiResponse.builder()
+                .message("DELETED")
                 .success(true)
                 .build();
     }
