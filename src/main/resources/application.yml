@@ -1,0 +1,19 @@
+server:
+  port: 80
+spring:
+  mvc:
+    servlet:
+      path: /api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/university
+    password: 2002
+    username: postgres
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
