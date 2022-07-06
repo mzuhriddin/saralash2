@@ -25,6 +25,7 @@ public class Subject {
     @Column(nullable = false, columnDefinition = "text")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group;
 }

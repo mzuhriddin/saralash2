@@ -2,6 +2,8 @@ package com.example.saralash2.entity;
 
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -22,7 +24,8 @@ public class Faculty {
     @Column(nullable = false, columnDefinition = "text")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private University university;
 
 }
