@@ -4,6 +4,7 @@ import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.GroupDto;
 import com.example.saralash2.entity.Faculty;
 import com.example.saralash2.entity.Group;
+import com.example.saralash2.projection.GroupView;
 import com.example.saralash2.repository.FacultyRepository;
 import com.example.saralash2.repository.GroupRepository;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,9 @@ public record GroupService(GroupRepository groupRepository, FacultyRepository fa
                 .message("DELETED")
                 .success(true)
                 .build();
+    }
+
+    public List<GroupView> getGroupAndStudents(Integer facultyId) {
+        return groupRepository.getGroup(facultyId);
     }
 }

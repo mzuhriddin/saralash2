@@ -2,16 +2,11 @@ package com.example.saralash2.controller;
 
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.GroupDto;
-import com.example.saralash2.dto.GroupDto;
 import com.example.saralash2.entity.Group;
-import com.example.saralash2.entity.Group;
-import com.example.saralash2.repository.GroupRepository;
 import com.example.saralash2.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/group")
@@ -28,7 +23,7 @@ public class GroupController {
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
         ApiResponse<Group> response = groupService.getOne(id);
-        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response);
     }
 
     @PostMapping
@@ -47,5 +42,10 @@ public class GroupController {
     public ResponseEntity delete(@PathVariable Integer id) {
         ApiResponse response = groupService.delete(id);
         return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response.getMessage());
+    }
+
+    @GetMapping("/groupAndStudents")
+    public ResponseEntity getGroupAndStudents(@RequestParam Integer facultyId) {
+        return ResponseEntity.ok(groupService.getGroupAndStudents(facultyId));
     }
 }

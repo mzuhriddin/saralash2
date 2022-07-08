@@ -22,7 +22,7 @@ public class UniversityController {
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
         ApiResponse<University> response = universityService.getOne(id);
-        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response);
     }
 
     @PostMapping

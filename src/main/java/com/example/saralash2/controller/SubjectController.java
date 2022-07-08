@@ -22,7 +22,7 @@ public class SubjectController {
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
         ApiResponse<Subject> response = subjectService.getOne(id);
-        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response);
     }
 
     @PostMapping
@@ -41,5 +41,10 @@ public class SubjectController {
     public ResponseEntity delete(@PathVariable Integer id) {
         ApiResponse response = subjectService.delete(id);
         return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response.getMessage());
+    }
+
+    @GetMapping("/byStudent")
+    public ResponseEntity getSubjects(@RequestParam Integer id) {
+        return ResponseEntity.ok(subjectService.getSubjects(id));
     }
 }

@@ -2,16 +2,11 @@ package com.example.saralash2.controller;
 
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.MarkDto;
-import com.example.saralash2.dto.MarkDto;
 import com.example.saralash2.entity.Mark;
-import com.example.saralash2.entity.Mark;
-import com.example.saralash2.repository.MarkRepository;
 import com.example.saralash2.service.MarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/mark")
@@ -27,7 +22,7 @@ public class MarkController {
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Integer id) {
         ApiResponse<Mark> response = markService.getOne(id);
-        return ResponseEntity.status(response.isSuccess() ? 200:404).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response);
     }
 
     @PostMapping

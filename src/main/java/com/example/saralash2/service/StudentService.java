@@ -2,9 +2,10 @@ package com.example.saralash2.service;
 
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.StudentDto;
-import com.example.saralash2.entity.Student;
 import com.example.saralash2.entity.Group;
 import com.example.saralash2.entity.Student;
+import com.example.saralash2.projection.StudentView;
+import com.example.saralash2.projection.Students;
 import com.example.saralash2.repository.GroupRepository;
 import com.example.saralash2.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -77,5 +78,13 @@ public record StudentService(StudentRepository studentRepository, GroupRepositor
                 .message("DELETED")
                 .success(true)
                 .build();
+    }
+
+    public List<StudentView> getByName(String name) {
+        return studentRepository.getStudentByName(name);
+    }
+
+    public List<Students> getByGroupId(Integer id) {
+        return studentRepository.getStudentByGroupId(id);
     }
 }

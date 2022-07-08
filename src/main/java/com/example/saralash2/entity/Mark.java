@@ -1,7 +1,6 @@
 package com.example.saralash2.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

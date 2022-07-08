@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ec23adc5-63d8-4426-bc75-ae1435255030",
+		"_postman_id": "732a09b7-9cf8-4907-a7c2-6717441d311a",
 		"name": "university",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19065025"
 	},
 	"item": [
 		{
@@ -724,6 +725,115 @@
 								"api",
 								"subject",
 								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "additional",
+			"item": [
+				{
+					"name": "subjectsByStudentId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/api/subject/byStudent?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"subject",
+								"byStudent"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GroupAndStudents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/api/group/groupAndStudents?facultyId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"group",
+								"groupAndStudents"
+							],
+							"query": [
+								{
+									"key": "facultyId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StudentByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/api/student/byName?name=Abbos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"student",
+								"byName"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Abbos"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StudentByGroupId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/api/student/byGroupId?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"student",
+								"byGroupId"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},

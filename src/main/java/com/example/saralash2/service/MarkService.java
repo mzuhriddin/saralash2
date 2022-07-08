@@ -3,7 +3,6 @@ package com.example.saralash2.service;
 import com.example.saralash2.dto.ApiResponse;
 import com.example.saralash2.dto.MarkDto;
 import com.example.saralash2.entity.Mark;
-import com.example.saralash2.entity.Mark;
 import com.example.saralash2.entity.Student;
 import com.example.saralash2.entity.Subject;
 import com.example.saralash2.repository.MarkRepository;
